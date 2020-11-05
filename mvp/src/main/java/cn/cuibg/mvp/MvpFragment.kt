@@ -13,18 +13,14 @@ abstract class MvpFragment<V : MvpView, P : MvpPresenter<V>> :
     Fragment(),
     MvpDelegateCallback<V, P>,
     MvpView {
-    protected var mMvpDelegate: FragmentMvpDelegate<V, P>? = null
+    private val mMvpDelegate: FragmentMvpDelegate<V, P> by lazy {
+        FragmentMvpDelegateImpl(this)
+    }
     protected var mPresenter: P? = null
     abstract override fun createPresenter(): P
 
     override var isRetainCurrentInstance: Boolean = false
 
-    protected fun getMvpDelegate(): FragmentMvpDelegate<V, P>? {
-        if (mMvpDelegate == null) {
-            mMvpDelegate = FragmentMvpDelegateImpl(this)
-        }
-        return mMvpDelegate
-    }
 
     override fun getPresenter(): P? {
         return mPresenter
@@ -46,76 +42,76 @@ abstract class MvpFragment<V : MvpView, P : MvpPresenter<V>> :
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getMvpDelegate()?.onCreate(savedInstanceState)
+        mMvpDelegate.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getMvpDelegate()?.onViewCreated(view, savedInstanceState)
+        mMvpDelegate.onViewCreated(view, savedInstanceState)
     }
 
     @Override
     override fun onDestroyView() {
         super.onDestroyView()
-        getMvpDelegate()?.onDestroyView()
+        mMvpDelegate.onDestroyView()
     }
 
     @Override
     override fun onDestroy() {
         super.onDestroy()
-        getMvpDelegate()?.onDestroy()
+        mMvpDelegate.onDestroy()
     }
 
     @Override
     override fun onPause() {
         super.onPause()
-        getMvpDelegate()?.onPause()
+        mMvpDelegate.onPause()
     }
 
     @Override
     override fun onResume() {
         super.onResume()
-        getMvpDelegate()?.onResume()
+        mMvpDelegate.onResume()
     }
 
     @Override
     override fun onStart() {
         super.onStart()
-        getMvpDelegate()?.onStart()
+        mMvpDelegate.onStart()
     }
 
     @Override
     override fun onStop() {
         super.onStop()
-        getMvpDelegate()?.onStop()
+        mMvpDelegate.onStop()
     }
 
     @Override
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getMvpDelegate()?.onActivityCreated(savedInstanceState)
+        mMvpDelegate.onActivityCreated(savedInstanceState)
     }
 
     @Override
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
-        getMvpDelegate()?.onAttach(activity)
+        mMvpDelegate.onAttach(activity)
     }
 
     @Override
     override fun onDetach() {
         super.onDetach()
-        getMvpDelegate()?.onDetach()
+        mMvpDelegate.onDetach()
     }
 
     @Override
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        getMvpDelegate()?.onSaveInstanceState(outState)
+        mMvpDelegate.onSaveInstanceState(outState)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        getMvpDelegate()?.onActivityResult(requestCode, resultCode, data)
+        mMvpDelegate.onActivityResult(requestCode, resultCode, data)
     }
 }

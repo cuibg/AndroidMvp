@@ -10,47 +10,50 @@ import cn.cuibg.mvp.delegate.MvpDelegateCallback
 
 abstract class MvpActivity<V : MvpView, P : MvpPresenter<V>> : AppCompatActivity(),
     MvpDelegateCallback<V, P>, MvpView {
-    protected var mMvpDelegate: ActivityMvpDelegate<V, P>? = null
+
+    val mMvpDelegate: ActivityMvpDelegate<V, P> by lazy {
+        ActivityMvpDelegateImpl(this)
+    }
     protected var mPresenter: P? = null;
     override var isRetainCurrentInstance = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getMvpDelegate()?.onCreate(savedInstanceState)
+        mMvpDelegate.onCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        getMvpDelegate()?.onDestroy()
+        mMvpDelegate.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        getMvpDelegate()?.onSaveInstanceState(outState)
+        mMvpDelegate.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
         super.onPause()
-        getMvpDelegate()?.onPause()
+        mMvpDelegate.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        getMvpDelegate()?.onResume()
+        mMvpDelegate.onResume()
     }
 
     override fun onStart() {
         super.onStart()
-        getMvpDelegate()?.onStart()
+        mMvpDelegate.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        getMvpDelegate()?.onStop()
+        mMvpDelegate.onStop()
     }
 
     override fun onRestart() {
         super.onRestart()
-        getMvpDelegate()?.onRestart()
+        mMvpDelegate.onRestart()
     }
 
     override fun onActivityResult(
@@ -59,26 +62,20 @@ abstract class MvpActivity<V : MvpView, P : MvpPresenter<V>> : AppCompatActivity
         data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
-        getMvpDelegate()?.onActivityResult(requestCode, resultCode, data)
+        mMvpDelegate.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onContentChanged() {
         super.onContentChanged()
-        getMvpDelegate()?.onContentChanged()
+        mMvpDelegate.onContentChanged()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        getMvpDelegate()?.onPostCreate(savedInstanceState)
+        mMvpDelegate.onPostCreate(savedInstanceState)
     }
 
     override abstract fun createPresenter(): P
-    private fun getMvpDelegate(): ActivityMvpDelegate<V, P>? {
-        if (mMvpDelegate == null) {
-            mMvpDelegate = ActivityMvpDelegateImpl(this)
-        }
-        return mMvpDelegate
-    }
 
     override fun getPresenter(): P? {
         return mPresenter
