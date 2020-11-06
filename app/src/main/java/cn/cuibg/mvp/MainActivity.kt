@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 
 class MainActivity : MvpActivity<MainView, MvpPresenter<MainView>>(), MainView {
-    lateinit var mMvpPresenter: MainMvpPresenter;
+    private lateinit var mMvpPresenter: MainMvpPresenter;
     private val tvContent: TextView by lazy {
         findViewById(R.id.tv_content) as TextView
     }
@@ -15,9 +15,7 @@ class MainActivity : MvpActivity<MainView, MvpPresenter<MainView>>(), MainView {
         setContentView(R.layout.activity_main)
 
         val presenter = getPresenter()
-        if (presenter is MainMvpPresenter) {
-            mMvpPresenter = presenter;
-        }
+        if (presenter is MainMvpPresenter) mMvpPresenter = presenter
         initDatas();
     }
 

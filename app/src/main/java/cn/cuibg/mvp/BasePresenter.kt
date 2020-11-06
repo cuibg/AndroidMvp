@@ -4,8 +4,7 @@ import android.content.Intent
 
 /**
  * description :
- * created time: 2020/11/6 14:25
- * created by: cuibenguang
+ * created by: cuibg
  */
 abstract class BasePresenter<V:MvpView>: MvpNullObjectBasePresenter<V>() {
     override fun create() {
